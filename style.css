@@ -1,0 +1,159 @@
+
+/* === Theme tokens extracted from image === */
+:root {
+  --bg: #0b233a;            /* 深海军蓝 背景 */
+  --bg-2: #0f2940;         /* 次级深蓝 */
+  --fg: #ffffff;            /* 主文本 */
+  --muted: #f2f2f2;      /* 次级文本/分隔线 */
+  --accent: #a82426;    /* 强调色（红） */
+
+  --brand-1: var(--bg-2);           /* 品牌蓝 1 */
+  --brand-2: var(--accent);         /* 品牌红 2 */
+  --brand-3: var(--muted);          /* 品牌灰 3 */
+
+  --shadow-1: 0 10px 30px rgba(0,0,0,.35);
+  --radius-1: 12px;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", "Microsoft YaHei", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  background: radial-gradient(80% 120% at 50% 0%, rgba(255,255,255,.04) 0%, transparent 60%), var(--bg);
+  color: var(--fg);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Three.js Canvas */
+#container {
+  position: absolute;
+  inset: 0;
+}
+
+/* UI Overlay */
+#overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* 允许穿透到 Three.js */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 底部标题 */
+#bottom-title {
+  position: absolute;
+  bottom: 3%;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+}
+#bottom-title h1 {
+  font-size: clamp(20px, 1.2vw, 28px);
+  margin: 0;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: .4px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+#bottom-title p {
+  font-size: clamp(12px, 1.2vw, 16px);
+  opacity: 0.85;
+  margin-top: 6px;
+  color: #cfd6dd;
+}
+
+/* 侧边说明 + 箭头 */
+.description-block {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  font-size: 14px;
+  color: var(--fg);
+  opacity: 0; /* 初始隐藏，由 JS 动画控制 */
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
+  transition: opacity .5s ease-out;
+}
+.description-block .text {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  padding: 8px 12px;
+  border-radius: var(--radius-1);
+  backdrop-filter: saturate(120%) blur(6px);
+  -webkit-backdrop-filter: saturate(120%) blur(6px);
+  white-space: nowrap;
+}
+.arrow {
+  width: 0; height: 0; border-style: solid; position: relative; top: -1px;
+}
+
+/* 四个预设位置（根据你的截图布局，可继续微调 %） */
+.top-desc { top: 14%; right: 24%; flex-direction: row-reverse; }
+.top-desc .arrow { border-width: 10px 0 10px 14px; border-color: transparent transparent transparent var(--fg); }
+
+.left-desc { top: 46%; left: 10%; }
+.left-desc .arrow { border-width: 10px 14px 10px 0; border-color: transparent var(--fg) transparent transparent; }
+
+.right-desc { top: 46%; right: 10%; flex-direction: row-reverse; }
+.right-desc .arrow { border-width: 10px 0 10px 14px; border-color: transparent transparent transparent var(--fg); }
+
+.bottom-desc { bottom: 16%; left: 18%; }
+.bottom-desc .arrow { border-width: 10px 14px 10px 0; border-color: transparent var(--fg) transparent transparent; }
+
+/* 交互提示 */
+#click-hint {
+  position: absolute;
+  bottom: 12px;
+  font-size: 12px;
+  opacity: .7;
+  animation: pulse 2s infinite ease-in-out;
+}
+@keyframes pulse {
+  0% { opacity: .55; transform: translateY(0); }
+  50% { opacity: .9; transform: translateY(-1px); }
+  100% { opacity: .55; transform: translateY(0); }
+}
+
+/* 响应式微调 */
+@media (max-width: 960px) {
+  .top-desc { top: 10%; right: 6%; }
+  .left-desc { left: 6%; }
+  .right-desc { right: 6%; }
+  .bottom-desc { left: 10%; bottom: 12%; }
+}
+
+.pyramid-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 2px 12px;
+  border-radius: 8px;
+  margin: 4px 0;
+  pointer-events: none;
+  background: none;
+  box-shadow: none;
+  text-shadow: 0 2px 8px rgba(0,0,0,.18);
+  z-index: 10;
+}
+
+.blue-base    { color: #fff; background: none; top: 72%; }
+.red-top      { color: #fff; background: none; top: 22%; }
+.pyramid-label.gray-face {
+  color: #222;
+  background: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  pointer-events: none;
+  text-shadow: 0 2px 8px rgba(0,0,0,.18);
+  z-index: 10;
+}
